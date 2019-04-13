@@ -13,5 +13,5 @@ script:
 after_success:
 - mv $GOPATH/src/github.com/containers/libpod/bin/podman-remote-darwin $GOPATH/src/github.com/garethahealy/podman-remote-build/bin/podman-remote-darwin
 - cd $GOPATH/src/github.com/garethahealy/podman-remote-build
-- git add bin/* && git commit --message "Travis build $TRAVIS_BUILD_NUMBER"
+- git add bin/* && git commit --message "[skip travis] Travis build $TRAVIS_BUILD_NUMBER"
 - git push origin-gh HEAD:master

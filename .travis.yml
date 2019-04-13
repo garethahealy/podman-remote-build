@@ -1,0 +1,17 @@
+dist: trusty
+env:
+  global:
+    secure: 0tgX04h9j1Ro+8bfWi1zVWaWulpkoHv2PGbfiX3KLIAJra7syg56C/QylKUiYU7oMUQ5bmYiOaT+49SzbUy7BbQGg9DZAtMvQAqms9J0pITz91FZsSJyfg4od5Di1aiGpjvMC7sq1kW8Gh25YiAp4EfDZATPME5RA4bQnXsdwnHgYeUYFK5iXu/GWPARXCxE9SDSg2j/TQQlB7Ah5i/5EzgfPyUjq8acnTnDc4TPDurX5wRDlpkIVaIpSHKilTqR+dysyOn717UtmyAltWfnLoX7SBdWCK5iQbNfYmKjnXqmWyifxv1vw4MtiCEQefBm5LDH8o72siWFiEBHiftswOOfExASno/rWgLxGx+NnyIw+HMTnxoMnj7anKndpw39hdZlvF+cij3LvR+3Tuj0hPrrM1dfG2AiEDlGwjT5CqVx759axIvkDLDTAjTxMYk0u23A9aqUnCZ2BWEvIQqSPGaY1Yjg5RM+MxSyJr+YC2bFoTytFCfx9TmVX6mtBUH8JEAUoILNwITtdq55iww+Tth3u5GyIzr6A8GSpVvnXmljTUGaQF7j1V9RW/HisnpwXPHUBdvM8wwd6zDM1Ue5ip4FLxTAqb2jugEceSEKhr1/RM0zcMWHtAgQixlQZztNTA5cbqd+ByI8s1ivOVQjB7/xgfy1R9qwMGS27NQ4R2k=
+language: go
+before_script:
+- mkdir -p bin
+- git config --global user.email "travis@garethahealy.com" && git config --global user.name "Travis Job"
+- git remote add origin-gh https://garethahealy:${GH_TOKEN}@github.com/garethahealy/podman-remote-build.git
+script:
+- git clone https://github.com/containers/libpod.git $GOPATH/src/github.com/containers/libpod && cd $GOPATH/src/github.com/containers/libpod
+- make podman-remote-darwin
+after_success:
+- mv $GOPATH/src/github.com/containers/libpod/bin/podman-remote-darwin $GOPATH/src/github.com/garethahealy/podman-remote-build/bin/podman-remote-darwin
+- cd $GOPATH/src/github.com/garethahealy/podman-remote-build
+- git add bin/* && git commit --message "Travis build $TRAVIS_BUILD_NUMBER"
+- git push origin-gh HEAD:master

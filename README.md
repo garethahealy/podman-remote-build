@@ -3,4 +3,4 @@
 
 # podman-remote-build
 Travis job to build:
-- https://github.com/containers/libpod/blob/master/remote_client.md#building-the-remote-client
+- https://github.com/containers/libpod/blob/master/docs/tutorials/remote_client.md#building-the-remote-client
